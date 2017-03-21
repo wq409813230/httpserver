@@ -1,10 +1,12 @@
 package net.freeapis.io;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.UUID;
 
 /**
  * Created by wuqiang on 2017/3/19.
@@ -54,26 +56,37 @@ public class HttpServer {
             request.setHeader(requestHeader);
 
             System.out.println(request);
-            String body = null;
+
+            /*String body = null;
             while((body = lineReader.readLine()) != null){
                 System.out.println(body);
-            }
+            }*/
 
-            /*String contentType = requestHeader.getContentType();
-            if(contentType.contains("multipart/form-data")){
+            String contentType = requestHeader.getContentType();
+            if(contentType != null && contentType.contains("multipart/form-data")){
+                FileOutputStream fos = new FileOutputStream(System.getProperty("java.io.tmpdir") + "copy.png");
                 request.isMultipart(true);
                 String boundary = contentType.split("; ")[1].split("=")[1];
-                String body = null;
-                while(!lineReader.readLine().equals(MULTIPART_BOUNDARY_FIX + boundary))
-                    continue;
+                String beginOfFile = MULTIPART_BOUNDARY_FIX + boundary;
+                String endOfFile = beginOfFile + MULTIPART_BOUNDARY_FIX;
 
-                String multipartContentDisposition = lineReader.readLine();
-                String multipartContentType = lineReader.readLine();
+                String currentLine = lineReader.readLine();
+                String multipartContentDisposition = null;
+                String multipartContentType = null;
 
-                while(!(body = lineReader.readLine()).equals(MULTIPART_BOUNDARY_FIX + boundary + MULTIPART_BOUNDARY_FIX)){
-                    System.out.println(body);
+                while(beginOfFile.equals(currentLine)){
+                    multipartContentDisposition = lineReader.readLine();
+                    multipartContentType = lineReader.readLine();
+                    lineReader.readLine();
+                    while(true){
+                        currentLine = lineReader.readLine();
+                        if(beginOfFile.equals(currentLine) || endOfFile.equals(currentLine))
+                            break;
+                        fos.write(currentLine.getBytes());
+                        System.out.println(currentLine);
+                    }
                 }
-            }*/
+            }
 
             Response response = new Response(clientSocket);
             Header responseHeader = new Header();

@@ -10,6 +10,8 @@ public class Header {
 
     private static final String HEADER_NAME_CONTENT_TYPE = "Content-Type";
 
+    private static final String HEADER_NAME_CONTENT_LENGTH = "Content-Length";
+
     private static final String HEADER_NAME_USER_AGENT = "User-Agent";
 
     private Map<String,String> values;
@@ -43,6 +45,10 @@ public class Header {
 
     public String getContentType(){
         return values != null ? values.get(HEADER_NAME_CONTENT_TYPE) : null;
+    }
+
+    public String getContentLength(){
+        return values != null ? values.get(HEADER_NAME_CONTENT_LENGTH) : null;
     }
 
     public String[] getHeaderNames(){

@@ -1,0 +1,15 @@
+var list;
+var result = '<div style="background-color:#e5e5e5;width:20%;height:100px;"><ul>';
+
+function out(){
+    return result;
+}
+
+var contextBindings = this.context.getBindings(200);
+var keySets  = contextBindings.keySet().toArray();
+for(var i = 0; i < keySets.length; i ++){
+    result += '<li style="border:1px solid red;height:20px;"><span>'+ keySets[i] +'</span> : <span>' + contextBindings.get(keySets[i]) + '</span></li>';
+}
+
+result += '</ul></div>';
+out();

@@ -1,5 +1,7 @@
 package net.freeapis.io;
 
+import java.io.InputStream;
+
 /**
  * Created by wuqiang on 2017/3/19.
  */
@@ -13,7 +15,11 @@ public class Request {
 
     private Header header;
 
+    private String characterEncoding;
+
     private boolean isMultipart;
+
+    private InputStream inputStream;
 
     public void setMethod(HttpMethod method) {
         this.method = method;
@@ -47,12 +53,28 @@ public class Request {
         return this.header;
     }
 
+    public String getCharacterEncoding() {
+        return characterEncoding;
+    }
+
+    public void setCharacterEncoding(String characterEncoding) {
+        this.characterEncoding = characterEncoding;
+    }
+
     public boolean isMultipart(){
         return this.isMultipart;
     }
 
     public void isMultipart(boolean isMultipart){
         this.isMultipart = isMultipart;
+    }
+
+    public InputStream getInputStream() {
+        return inputStream;
+    }
+
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
     }
 
     public String toString(){
